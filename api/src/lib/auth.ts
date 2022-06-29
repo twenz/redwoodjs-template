@@ -1,4 +1,6 @@
+/* eslint-disable no-debugger */
 import { AuthenticationError, ForbiddenError } from '@redwoodjs/graphql-server'
+
 import { db } from './db'
 
 /**
@@ -18,11 +20,23 @@ import { db } from './db'
  * fields to the `select` object below once you've decided they are safe to be
  * seen if someone were to open the Web Inspector in their browser.
  */
+interface User {
+  id: number
+  roles: string[]
+}
 export const getCurrentUser = async (session) => {
-  return await db.user.findUnique({
+  const _user = await db.user.findUnique({
     where: { id: session.id },
-    select: { id: true },
+    select: { id: true, roles: true },
   })
+  const maprole: string[] = _user.roles.map((e) => {
+    return e.role
+  })
+  const user: User = {
+    id: _user.id,
+    roles: maprole,
+  }
+  return user
 }
 
 /**

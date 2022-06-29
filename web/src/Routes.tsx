@@ -17,7 +17,7 @@ const Routes = () => {
       <Route path="/forgot-password" page={ForgotPasswordPage} name="forgotPassword" />
       <Route path="/reset-password" page={ResetPasswordPage} name="resetPassword" />
       <Route path="/app" page={AppPage} name="app" />
-      <Private unauthenticated="app">
+      <Private unauthenticated="app" roles={['admin', 'user']}>
         <Route path="/" page={MainPage} name="main" />
       </Private>
       <Route notfound page={NotFoundPage} />
